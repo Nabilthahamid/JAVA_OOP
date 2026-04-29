@@ -24,16 +24,10 @@ javac -d %CLASS_OUTPUT% -cp %CLASSPATH% ^
   %JAVA_SRC%\services\*.java ^
   %JAVA_SRC%\utils\*.java
 
-REM Compile GUI sources using OpenJFX SDK if available
+REM Compile GUI sources using classpath
 echo Compiling GUI sources (JavaFX)...
-if exist %LIB_PATH%\openjfx-24\javafx-sdk-24\lib (
-    javac --module-path %LIB_PATH%\openjfx-24\javafx-sdk-24\lib --add-modules javafx.controls,javafx.fxml -d %CLASS_OUTPUT% -cp %CLASSPATH%;%CLASS_OUTPUT% ^
-      %JAVA_SRC%\ui\*.java
-) else (
-    echo OpenJFX SDK not found at %LIB_PATH%\openjfx-24\javafx-sdk-24\lib; attempting classpath compilation
-    javac -d %CLASS_OUTPUT% -cp %CLASSPATH%;%CLASS_OUTPUT% ^
-      %JAVA_SRC%\ui\*.java
-)
+javac -d %CLASS_OUTPUT% -cp %CLASSPATH%;%CLASS_OUTPUT% ^
+  %JAVA_SRC%\ui\*.java
 
 if %ERRORLEVEL% neq 0 (
     echo Compilation failed!
